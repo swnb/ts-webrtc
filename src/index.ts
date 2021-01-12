@@ -33,7 +33,7 @@ abstract class Peer extends SyncEvent<PeerEventMap> {
   public isDebug = true
 
   // RTCPeerConnection
-  private rtcPeerConnection: RTCPeerConnection
+  protected rtcPeerConnection: RTCPeerConnection
 
   constructor(rtcPeerConnection: RTCPeerConnection) {
     super()
