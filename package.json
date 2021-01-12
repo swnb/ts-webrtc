@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "@swnb/event": "^0.1.0"
+  },
+  "devDependencies": {
+    "@swnb/fabric": "^0.4.1"
+  },
+  "name": "@swnb/webrtc",
+  "version": "0.1.0",
+  "description": "webrtc wrapper for personal use",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --build tsconfig.json",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swnb/ts-webrtc.git"
+  },
+  "keywords": [
+    "webrtc"
+  ],
+  "author": "swnb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/swnb/ts-webrtc/issues"
+  },
+  "homepage": "https://github.com/swnb/ts-webrtc#readme"
+}
