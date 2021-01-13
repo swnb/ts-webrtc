@@ -7,6 +7,7 @@ type SDPDescriptionHandler = VoidFnWithSingleArg<RTCSessionDescriptionInit>
 
 type PeerEventMap = {
   rtcPeerConnectionStateChange: VoidFnWithSingleArg<RTCPeerConnectionState>
+  dataChannel: VoidFnWithSingleArg<RTCDataChannel>
   negotiationneeded: VoidFunction
   track: VoidFnWithSingleArg<RTCTrackEvent>
   sendCandidate: VoidFnWithSingleArg<RTCIceCandidate>
@@ -43,6 +44,7 @@ abstract class Peer extends SyncEvent<PeerEventMap> {
     this.rtcPeerConnection.addEventListener('negotiationneeded', this.onNegotiationneeded)
     this.rtcPeerConnection.addEventListener('connectionstatechange', this.onConnectionStateChange)
     this.rtcPeerConnection.addEventListener('track', this.onTrack)
+    this.rtcPeerConnection.addEventListener('datachannel', this.onDataChannel)
   }
 
   public setCandidate = async (candidate: RTCIceCandidate) => {
@@ -66,7 +68,7 @@ abstract class Peer extends SyncEvent<PeerEventMap> {
   }
 
   // 封装好的 sendAnswer 方法
-  sendAnswer = async (answerOptions?: RTCAnswerOptions) => {
+  public sendAnswer = async (answerOptions?: RTCAnswerOptions) => {
     const answer = await this.rtcPeerConnection.createAnswer(answerOptions)
     await this.rtcPeerConnection.setLocalDescription(answer)
 
@@ -106,7 +108,7 @@ abstract class Peer extends SyncEvent<PeerEventMap> {
     this.dispatch('setAnswer', answer)
   }
 
-  destroy = () => {
+  public destroy = () => {
     // 销毁 RTCPeerConnection 的回调函数
     this.rtcPeerConnection.removeEventListener('icecandidate', this.onIceCandidate)
     this.rtcPeerConnection.removeEventListener('negotiationneeded', this.onNegotiationneeded)
@@ -115,10 +117,15 @@ abstract class Peer extends SyncEvent<PeerEventMap> {
       this.onConnectionStateChange,
     )
     this.rtcPeerConnection.removeEventListener('track', this.onTrack)
+    this.rtcPeerConnection.removeEventListener('datachannel', this.onDataChannel)
     this.rtcPeerConnection.close()
     this.dispatch('close')
     // 移除注册事件
     this.autoClear()
+  }
+
+  public createDataChannel = (label: string, dataChannelDict?: RTCDataChannelInit) => {
+    return this.rtcPeerConnection.createDataChannel(label, dataChannelDict)
   }
 
   // 获取到 candidate 之后的触发
@@ -151,6 +158,10 @@ abstract class Peer extends SyncEvent<PeerEventMap> {
 
   private onTrack = (ev: RTCTrackEvent) => {
     this.dispatch('track', ev)
+  }
+
+  private onDataChannel = ({ channel }: RTCDataChannelEvent) => {
+    this.dispatch('dataChannel', channel)
   }
 }
 
