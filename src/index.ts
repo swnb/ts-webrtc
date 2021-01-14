@@ -31,7 +31,7 @@ export interface Options {
 const Console = console
 
 abstract class Peer extends SyncEvent<PeerEventMap> {
-  public isDebug = true
+  public isDebug = false
 
   // RTCPeerConnection
   protected rtcPeerConnection: RTCPeerConnection
