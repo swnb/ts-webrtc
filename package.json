@@ -9,6 +9,11 @@
   "version": "0.2.1",
   "description": "webrtc wrapper for personal use",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc --build tsconfig.json",
     "prepublishOnly": "npm run build",
