@@ -6,7 +6,7 @@
     "@swnb/fabric": "^0.4.1"
   },
   "name": "@swnb/webrtc",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "webrtc wrapper for personal use",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
